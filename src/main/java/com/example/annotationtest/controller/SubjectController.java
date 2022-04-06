@@ -35,7 +35,7 @@ public class SubjectController {
     }
 
     @PostMapping("/saveNewSubjects")
-    public ResponseEntity<List<Subject>> saveNewSubjects(@Valid @RequestBody ArrayList<Subject> subjects) throws RuntimeException {
+    public ResponseEntity<List<Subject>> saveNewSubjects(@RequestBody ArrayList<@Valid Subject> subjects) throws RuntimeException {
         return new ResponseEntity<>(subjectService.saveNewUsers(subjects), HttpStatus.OK);
     }
 

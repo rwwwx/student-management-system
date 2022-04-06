@@ -2,13 +2,13 @@ package com.example.annotationtest.service;
 
 import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.entityRepository.StudentRepo;
-import com.example.annotationtest.exception.invalidEmailException;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import java.util.List;
 
@@ -23,13 +23,12 @@ public class StudentService {
         this.studentRepo = studentRepo;
     }
 
-    //TODO check @Qualifier
     public Student saveNewStudent(Student student) {
         return studentRepo.save(student);
     }
 
-    public List<Student> saveNewUsers(List<Student> students) {
-        return studentRepo.saveAll(students);
+    public Student getStudentById(long id) {
+        return studentRepo.getById(id);
     }
 
     public List<Student> viewUsers() {
@@ -37,13 +36,12 @@ public class StudentService {
     }
 
     @Transactional
-    public Student updateStudentEmail(long id, String newEmail) throws RuntimeException {
-        if (studentRepo.existsById(id) && !studentRepo.existsByEmail(newEmail)) {
-            return studentRepo.updateStudentEmail(id, newEmail);
-        } else {
-            log.info("wrong email or id");
-            throw new invalidEmailException();
-        }
+    public Student updateStudent(long id, @Valid Student student) throws RuntimeException {
+        return studentRepo.save(new Student(id, student));
     }
+
+//    public List<Student> saveNewUsers(List<Student> students) {
+//        return studentRepo.saveAll(students);
+//    }
 
 }

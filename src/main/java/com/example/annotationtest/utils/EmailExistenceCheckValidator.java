@@ -10,18 +10,18 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Slf4j
-public class EmailAddressValidator implements ConstraintValidator<EmailValidation, String> {
+public class EmailExistenceCheckValidator implements ConstraintValidator<EmailExistenceCheck, String> {
 
     private final StudentRepo studentRepo;
 
     @Autowired
-    public EmailAddressValidator(StudentRepo studentRepo) {
+    public EmailExistenceCheckValidator(StudentRepo studentRepo) {
         this.studentRepo = studentRepo;
         log.info("EmailAddressValidator init...");
     }
 
     @Override
-    public void initialize(EmailValidation constraintAnnotation) {
+    public void initialize(EmailExistenceCheck constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 

@@ -1,6 +1,6 @@
 package com.example.annotationtest.exception;
 
-public class invalidSubjectNameException extends RuntimeException {
+public class InvalidSubjectNameException extends RuntimeException {
 
     @Override
     public String getMessage() {

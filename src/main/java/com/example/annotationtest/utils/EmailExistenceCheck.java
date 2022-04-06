@@ -2,6 +2,7 @@ package com.example.annotationtest.utils;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -10,8 +11,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailAddressValidator.class)
-public @interface EmailValidation {
+@Constraint(validatedBy = EmailExistenceCheckValidator.class)
+public @interface EmailExistenceCheck {
 
     String message() default "{invalidEmailException}";
     Class<?>[] groups() default { };

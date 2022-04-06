@@ -1,6 +1,6 @@
 package com.example.annotationtest.exception;
 
-public class invalidEmailException extends RuntimeException {
+public class InvalidEmailException extends RuntimeException {
 
     @Override
     public String getMessage() {
