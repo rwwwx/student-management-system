@@ -1,11 +1,14 @@
 package com.example.annotationtest.entity;
 
-import com.example.annotationtest.utils.EmailValidation;
+import com.example.annotationtest.utils.EmailExists;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+
 import java.util.Set;
 
 @Data
@@ -29,6 +32,14 @@ public class Student {
         this.subjectSet = subjectSet;
     }
 
+    public Student(long id, Student student) {
+        this.id = id;
+        this.age = student.getAge();
+        this.firstName = student.getFirstName();
+        this.email = student.getEmail();
+        this.lastName = student.getLastName();
+    }
+
     @Id
     @SequenceGenerator(name = "sequenceForStudent", sequenceName = "sequenceForStudent", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceForStudent")
@@ -40,8 +51,9 @@ public class Student {
     private String lastName;
 
     @Column(unique = true, nullable = false)
-    @EmailValidation
+    @EmailExists
     @NotNull
+    @Email(message = "Email should be valid")
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")

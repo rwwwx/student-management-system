@@ -1,6 +1,7 @@
 package com.example.annotationtest.controller;
 
-import com.example.annotationtest.exception.invalidEmailException;
+import com.example.annotationtest.exception.InvalidEmailException;
+import com.example.annotationtest.exception.InvalidIdException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
@@ -22,25 +23,25 @@ public class ErrorHandlingControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e) {
-        log.error("ErrorHandlingControllerAdvice catch an exception");
+        log.error("ErrorHandlingControllerAdvice catch an exception", e);
         return new ResponseEntity<>(e. getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(invalidEmailException.class)
-    public ResponseEntity<String> handleInvalidEmailException(invalidEmailException e) {
-        log.error("ErrorHandlingControllerAdvice catch an exception " + e);
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> listOfStudentsIsEmptyException(HttpMessageNotReadableException e) {
-        log.error("ErrorHandlingControllerAdvice catch an exception " + e);
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<String> handleInvalidEmailException(InvalidEmailException e) {
+        log.error("ErrorHandlingControllerAdvice catch an exception ", e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> listOfStudentsIsEmptyException(ConstraintViolationException e) {
-        log.error("ErrorHandlingControllerAdvice catch an exception " + e);
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
+        log.error("ErrorHandlingControllerAdvice catch an exception ", e);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidIdException.class)
+    public ResponseEntity<String> handleInvalidIdException(InvalidIdException e) {
+        log.error("ErrorHandlingControllerAdvice catch an exception ", e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

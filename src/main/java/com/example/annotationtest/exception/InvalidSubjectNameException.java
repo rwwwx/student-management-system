@@ -1,6 +1,6 @@
 package com.example.annotationtest.exception;
 
-public class invalidSubjectNameException extends RuntimeException {
+public class InvalidSubjectNameException extends RuntimeException {
 
     @Override
     public String getMessage() {
@@ -9,7 +9,7 @@ public class invalidSubjectNameException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "Invalid data for student";
+        return "InvalidSubjectNameException";
     }
 
 }

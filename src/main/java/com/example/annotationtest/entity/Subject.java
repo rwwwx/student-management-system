@@ -1,7 +1,8 @@
 package com.example.annotationtest.entity;
 
 
-import com.example.annotationtest.utils.SubjectNameValidation;
+import com.example.annotationtest.utils.SubjectNameExists;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,12 @@ public class Subject {
         this.student = student;
     }
 
+    public Subject(long id, Subject subject) {
+        this.id = id;
+        this.name = subject.getName();
+        this.student = subject.getStudent();
+    }
+
     @Id
     @SequenceGenerator(name = "sequenceForSubject", sequenceName = "sequenceForSubject", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceForSubject")
@@ -30,7 +37,7 @@ public class Subject {
 
     @Column(unique = true, nullable = false, name = "subject_name")
     @NotNull
-    @SubjectNameValidation
+    @SubjectNameExists
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)

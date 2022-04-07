@@ -10,24 +10,22 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Slf4j
-public class EmailAddressValidator implements ConstraintValidator<EmailValidation, String> {
+public class EmailExistsValidator implements ConstraintValidator<EmailExists, String> {
 
     private final StudentRepo studentRepo;
 
     @Autowired
-    public EmailAddressValidator(StudentRepo studentRepo) {
+    public EmailExistsValidator(StudentRepo studentRepo) {
         this.studentRepo = studentRepo;
-        log.info("EmailAddressValidator init...");
     }
 
     @Override
-    public void initialize(EmailValidation constraintAnnotation) {
+    public void initialize(EmailExists constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
-        log.info("Validating...");
         return !studentRepo.existsByEmail(email);
     }
 

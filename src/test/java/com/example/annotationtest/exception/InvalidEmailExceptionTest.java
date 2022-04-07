@@ -11,11 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 class InvalidEmailExceptionTest {
 
-    private invalidEmailException exception;
+    private InvalidEmailException exception;
 
     @BeforeEach
     void setUp() {
-        exception = new invalidEmailException();
+        exception = new InvalidEmailException();
     }
 
     @Test

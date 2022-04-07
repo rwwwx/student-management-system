@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -26,25 +25,30 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<String> home() {
-        return new ResponseEntity<>("home", HttpStatus.OK);
-    }
-
-    @GetMapping("/ls")
+    @GetMapping("/all")
     public ResponseEntity<List<Student>> viewAllUsers() {
         return new ResponseEntity<>(studentService.viewUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("/saveNewStudent")
+    @PostMapping("/")
     public ResponseEntity<Student> saveNewStudent(@RequestBody @Valid Student student) throws RuntimeException {
-        return new ResponseEntity<>(studentService.saveNewStudent(student), HttpStatus.OK);
+        return ResponseEntity.ok(studentService.saveNewStudent(student));
     }
 
-    //TODO validating
-    @PostMapping("/saveNewStudents")
-    public ResponseEntity<List<Student>> saveNewStudents(@RequestBody @NotNull List<@Valid Student> students) {
-        return new ResponseEntity<>(studentService.saveNewUsers(students), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<Student> getStudentById(@PathVariable long id) throws RuntimeException {
+        return ResponseEntity.ok(studentService.getStudentById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody Student updatedStudent) {
+        return ResponseEntity.ok(studentService.updateStudent(id, updatedStudent));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteStudent(@PathVariable long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 //    @PostMapping("/test")
@@ -53,10 +57,5 @@ public class StudentController {
 //        return new ResponseEntity<>(studentService.saveNewStudent(new Student
 //                (22, "m", "m", "email", subjects)), HttpStatus.OK);
 //    }
-
-    @PostMapping("/updateStudentEmail")
-    public ResponseEntity<Student> updateStudentEmail(@RequestParam long id, String newEmail) {
-        return new ResponseEntity<>(studentService.updateStudentEmail(id, newEmail), HttpStatus.OK);
-    }
 
 }

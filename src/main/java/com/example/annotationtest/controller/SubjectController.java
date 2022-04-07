@@ -1,6 +1,5 @@
 package com.example.annotationtest.controller;
 
-import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.entity.Subject;
 import com.example.annotationtest.service.SubjectService;
 
@@ -10,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -24,27 +23,40 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @GetMapping("/ls")
-    public List<Subject> viewAllSubjects() {
-        return subjectService.viewSubjects();
+    @GetMapping("/all")
+    public ResponseEntity<List<Subject>> getAllSubjects() {
+        return ResponseEntity.ok(subjectService.viewSubjects());
     }
 
-    @PostMapping("/saveNewSubject")
+    @GetMapping("/{id}")
+    public ResponseEntity<Subject> getSubjectById(@PathVariable long id) {
+        return ResponseEntity.ok(subjectService.getSubjectById(id));
+    }
+
+    @PostMapping("/")
     public ResponseEntity<Subject> saveNewSubject(@Valid @RequestBody Subject subject) throws RuntimeException {
         return new ResponseEntity<>(subjectService.saveNewSubject(subject), HttpStatus.OK);
     }
 
-    @PostMapping("/saveNewSubjects")
-    public ResponseEntity<List<Subject>> saveNewSubjects(@Valid @RequestBody ArrayList<Subject> subjects) throws RuntimeException {
-        return new ResponseEntity<>(subjectService.saveNewUsers(subjects), HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Subject> updateSubject(@PathVariable long id, @RequestBody Subject updatedSubject) {
+        return ResponseEntity.ok(subjectService.updateSubject(id, updatedSubject));
     }
 
-    @PostMapping("/test2")
-    public ResponseEntity<Subject> test() {
-        Student student = new Student
-                (22, "m", "m", "email");
-        return new ResponseEntity<>(subjectService.saveNewSubject(new Subject("math", student)), HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteSubject(@PathVariable long id) {
+        subjectService.deleteSubject(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
+//    @PostMapping("/test2")
+//    public ResponseEntity<Subject> test() {
+//        Student student = new Student
+//                (22, "m", "m", "email");
+//        return new ResponseEntity<>(subjectService.saveNewSubject(new Subject("math", student)), HttpStatus.OK);
+//    }
 
 
 }
