@@ -41,6 +41,7 @@ public class StudentService {
         return studentRepo.save(new Student(id, student));
     }
 
+    @Transactional
     public void deleteStudent(long id) throws RuntimeException {
         if (studentRepo.existsById(id)) {
             studentRepo.deleteById(id);
