@@ -11,8 +11,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = SubjectNameExistenceCheckValidator.class)
-public @interface SubjectNameExistenceCheck {
+@Constraint(validatedBy = SubjectNameExistsValidator.class)
+public @interface SubjectNameExists {
 
     String message() default "{invalidSubjectName}";
     Class<?>[] groups() default { };

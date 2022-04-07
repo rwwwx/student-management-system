@@ -1,6 +1,7 @@
 package com.example.annotationtest.controller;
 
 import com.example.annotationtest.exception.InvalidEmailException;
+import com.example.annotationtest.exception.InvalidIdException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpStatus;
@@ -32,14 +33,14 @@ public class ErrorHandlingControllerAdvice {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> listOfStudentsIsEmptyException(HttpMessageNotReadableException e) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException e) {
         log.error("ErrorHandlingControllerAdvice catch an exception ", e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> listOfStudentsIsEmptyException(ConstraintViolationException e) {
+    @ExceptionHandler(InvalidIdException.class)
+    public ResponseEntity<String> handleInvalidIdException(InvalidIdException e) {
         log.error("ErrorHandlingControllerAdvice catch an exception ", e);
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }

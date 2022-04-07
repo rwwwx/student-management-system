@@ -2,6 +2,7 @@ package com.example.annotationtest.service;
 
 import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.entityRepository.StudentRepo;
+import com.example.annotationtest.exception.InvalidIdException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,12 +37,16 @@ public class StudentService {
     }
 
     @Transactional
-    public Student updateStudent(long id, @Valid Student student) throws RuntimeException {
+    public Student updateStudent(long id, @Valid Student student) {
         return studentRepo.save(new Student(id, student));
     }
 
-//    public List<Student> saveNewUsers(List<Student> students) {
-//        return studentRepo.saveAll(students);
-//    }
+    public void deleteStudent(long id) throws RuntimeException {
+        if (studentRepo.existsById(id)) {
+            studentRepo.deleteById(id);
+        } else {
+            throw new InvalidIdException();
+        }
+    }
 
 }

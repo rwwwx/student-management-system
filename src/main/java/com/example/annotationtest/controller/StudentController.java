@@ -25,31 +25,31 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/ls")
+    @GetMapping("/all")
     public ResponseEntity<List<Student>> viewAllUsers() {
         return new ResponseEntity<>(studentService.viewUsers(), HttpStatus.OK);
     }
 
     @PostMapping("/")
     public ResponseEntity<Student> saveNewStudent(@RequestBody @Valid Student student) throws RuntimeException {
-        return new ResponseEntity<>(studentService.saveNewStudent(student), HttpStatus.OK);
+        return ResponseEntity.ok(studentService.saveNewStudent(student));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable long id) throws RuntimeException {
-        return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.OK);
+        return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody Student updatedStudent) {
-        return new ResponseEntity<>(studentService.updateStudent(id, updatedStudent), HttpStatus.OK);
+        return ResponseEntity.ok(studentService.updateStudent(id, updatedStudent));
     }
 
-//    //TODO validating
-//    @PostMapping("/saveNewStudents")
-//    public ResponseEntity<List<Student>> saveNewStudents(@RequestBody @NotNull List<@Valid Student> students) {
-//        return new ResponseEntity<>(studentService.saveNewUsers(students), HttpStatus.OK);
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteStudent(@PathVariable long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
 //    @PostMapping("/test")
 //    public ResponseEntity<Student> test() {

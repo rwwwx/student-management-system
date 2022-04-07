@@ -11,8 +11,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailExistenceCheckValidator.class)
-public @interface EmailExistenceCheck {
+@Constraint(validatedBy = EmailExistsValidator.class)
+public @interface EmailExists {
 
     String message() default "{invalidEmailException}";
     Class<?>[] groups() default { };

@@ -9,7 +9,7 @@ public class InvalidSubjectNameException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "Invalid data for student";
+        return "InvalidSubjectNameException";
     }
 
 }

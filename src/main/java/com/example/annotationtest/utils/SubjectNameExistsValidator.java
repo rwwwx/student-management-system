@@ -10,18 +10,17 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Slf4j
-public class SubjectNameExistenceCheckValidator implements ConstraintValidator<SubjectNameExistenceCheck, String> {
+public class SubjectNameExistsValidator implements ConstraintValidator<SubjectNameExists, String> {
 
     private final SubjectRepo subjectRepo;
 
     @Autowired
-    public SubjectNameExistenceCheckValidator(SubjectRepo subjectRepo) {
+    public SubjectNameExistsValidator(SubjectRepo subjectRepo) {
         this.subjectRepo = subjectRepo;
-        log.info("EmailAddressValidator init...");
     }
 
     @Override
-    public void initialize(SubjectNameExistenceCheck constraintAnnotation) {
+    public void initialize(SubjectNameExists constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 

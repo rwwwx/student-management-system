@@ -24,7 +24,7 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @GetMapping("/ls")
+    @GetMapping("/all")
     public List<Subject> viewAllSubjects() {
         return subjectService.viewSubjects();
     }
@@ -35,16 +35,16 @@ public class SubjectController {
     }
 
     @PostMapping("/saveNewSubjects")
-    public ResponseEntity<List<Subject>> saveNewSubjects(@RequestBody ArrayList<@Valid Subject> subjects) throws RuntimeException {
+    public ResponseEntity<List<Subject>> saveNewSubjects(@RequestBody ArrayList<@Valid Subject> subjects) {
         return new ResponseEntity<>(subjectService.saveNewUsers(subjects), HttpStatus.OK);
     }
 
-    @PostMapping("/test2")
-    public ResponseEntity<Subject> test() {
-        Student student = new Student
-                (22, "m", "m", "email");
-        return new ResponseEntity<>(subjectService.saveNewSubject(new Subject("math", student)), HttpStatus.OK);
-    }
+//    @PostMapping("/test2")
+//    public ResponseEntity<Subject> test() {
+//        Student student = new Student
+//                (22, "m", "m", "email");
+//        return new ResponseEntity<>(subjectService.saveNewSubject(new Subject("math", student)), HttpStatus.OK);
+//    }
 
 
 }

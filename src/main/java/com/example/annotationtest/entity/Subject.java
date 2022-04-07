@@ -1,7 +1,7 @@
 package com.example.annotationtest.entity;
 
 
-import com.example.annotationtest.utils.SubjectNameExistenceCheck;
+import com.example.annotationtest.utils.SubjectNameExists;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,7 @@ public class Subject {
 
     @Column(unique = true, nullable = false, name = "subject_name")
     @NotNull
-    @SubjectNameExistenceCheck
+    @SubjectNameExists
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
