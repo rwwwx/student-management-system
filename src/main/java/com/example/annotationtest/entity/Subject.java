@@ -24,6 +24,12 @@ public class Subject {
         this.student = student;
     }
 
+    public Subject(long id, Subject subject) {
+        this.id = id;
+        this.name = subject.getName();
+        this.student = subject.getStudent();
+    }
+
     @Id
     @SequenceGenerator(name = "sequenceForSubject", sequenceName = "sequenceForSubject", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceForSubject")

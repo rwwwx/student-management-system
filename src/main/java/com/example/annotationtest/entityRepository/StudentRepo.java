@@ -10,8 +10,6 @@ public interface StudentRepo extends JpaRepository<Student, Long> {
 
     boolean existsByEmail(String email);
 
-    void deleteById(Long id);
-
 //    @Modifying
 //    @Query("update Student s set s.age = :student where Student.id = :id")
 //    Student updateStudent(@Param(value = "id") long id);

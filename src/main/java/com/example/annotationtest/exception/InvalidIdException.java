@@ -4,7 +4,7 @@ public class InvalidIdException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "invalid id, student with this id may not exists";
+        return "invalid id, entity with this id may not exists";
     }
 
     @Override
