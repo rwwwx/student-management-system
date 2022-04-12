@@ -15,12 +15,10 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserRepo userRepo;
-    private final RoleRepo roleRepo;
 
     @Autowired
-    public UserService(UserRepo userRepo, RoleRepo roleRepo) {
+    public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
     }
 
     @Override

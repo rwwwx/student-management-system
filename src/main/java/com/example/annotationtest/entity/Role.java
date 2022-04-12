@@ -19,25 +19,18 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @NotNull
-    private RoleName name;
+    private UserRole userRole;
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    public Role(RoleName name) {
-        this.name = name;
+    public Role(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     @Override
     public String getAuthority() {
-        return name.name();
+        return userRole.name();
     }
-
-}
-
-enum RoleName {
-
-    User,
-    Admin
 
 }

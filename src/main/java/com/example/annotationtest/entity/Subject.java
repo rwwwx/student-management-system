@@ -15,6 +15,19 @@ import javax.validation.constraints.NotNull;
 @Entity(name = "Subject")
 public class Subject {
 
+    @Id
+    @SequenceGenerator(name = "sequenceForSubject", sequenceName = "sequenceForSubject", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceForSubject")
+    private long id;
+
+    @Column(unique = true, nullable = false, name = "subject_name")
+    @NotNull
+    @SubjectNameExists
+    private String name;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Student student;
+
     public Subject(String name) {
         this.name = name;
     }
@@ -29,18 +42,5 @@ public class Subject {
         this.name = subject.getName();
         this.student = subject.getStudent();
     }
-
-    @Id
-    @SequenceGenerator(name = "sequenceForSubject", sequenceName = "sequenceForSubject", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceForSubject")
-    private long id;
-
-    @Column(unique = true, nullable = false, name = "subject_name")
-    @NotNull
-    @SubjectNameExists
-    private String name;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Student student;
 
 }

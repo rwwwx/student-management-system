@@ -6,6 +6,7 @@ import com.example.annotationtest.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,11 @@ public class StudentController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Student>> viewAllUsers() {
+        return new ResponseEntity<>(studentService.viewUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/all")
+    public ResponseEntity<List<Student>> viewAllUsersTest() {
         return new ResponseEntity<>(studentService.viewUsers(), HttpStatus.OK);
     }
 

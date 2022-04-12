@@ -17,6 +17,25 @@ import java.util.Set;
 @Table(name = "students")
 public class Student {
 
+    @Id
+    @SequenceGenerator(name = "sequenceForStudent", sequenceName = "sequenceForStudent", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceForStudent")
+    private long id;
+
+    private int age;
+
+    private String firstName;
+    private String lastName;
+
+    @Column(unique = true, nullable = false)
+    @EmailExists
+    @NotNull
+    @Email(message = "Email should be valid")
+    private String email;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Set<Subject> subjectSet;
+
     public Student(int age, String firstName, String lastName, String email) {
         this.age = age;
         this.firstName = firstName;
@@ -39,24 +58,5 @@ public class Student {
         this.email = student.getEmail();
         this.lastName = student.getLastName();
     }
-
-    @Id
-    @SequenceGenerator(name = "sequenceForStudent", sequenceName = "sequenceForStudent", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceForStudent")
-    private long id;
-
-    private int age;
-
-    private String firstName;
-    private String lastName;
-
-    @Column(unique = true, nullable = false)
-    @EmailExists
-    @NotNull
-    @Email(message = "Email should be valid")
-    private String email;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
-    private Set<Subject> subjectSet;
 
 }

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,13 +23,21 @@ public class User implements UserDetails {
 
     @NotNull
     private String username;
-
     @NotNull
     private String password;
+
+    @JoinColumn(name = "student_id")
+    @OneToMany
+    private List<Student> students;
+
+    @JoinColumn(name = "subject_id")
+    @OneToMany
+    private List<Subject> subjects;
 
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Role> roles;
 
+    //TODO constructor
     public User(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
@@ -38,7 +47,7 @@ public class User implements UserDetails {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        roles.add(new Role(RoleName.User));
+        roles.add(new Role(UserRole.USER_ROLE));
     }
 
     @Override
@@ -65,7 +74,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
