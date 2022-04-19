@@ -1,38 +1,43 @@
 package com.example.annotationtest.config;
 
 import com.example.annotationtest.entity.UserRole;
-
+import com.example.annotationtest.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import static org.hibernate.criterion.Restrictions.and;
-
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserDetailsServiceImpl myUserDetailsService;
 
-    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsServiceImpl myUserDetailsService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.myUserDetailsService = myUserDetailsService;
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin")
-                .password(bCryptPasswordEncoder.encode("admin"))
-                .roles(UserRole.USER_ROLE.name())
+                .password(bCryptPasswordEncoder.encode("1"))
+                .authorities(UserRole.ADMIN.getGrantedAuthorities())
+                .roles(UserRole.ADMIN.name())
                 .and()
                 .withUser("user")
-                .password(bCryptPasswordEncoder.encode("user"))
-                .roles(UserRole.USER_ROLE.name(), UserRole.USER_ROLE.name());
+                .password(bCryptPasswordEncoder.encode("1"))
+                .roles(UserRole.USER.name())
+                .authorities(UserRole.USER.getGrantedAuthorities());
+        auth.userDetailsService(myUserDetailsService);
     }
 
     @Override
@@ -41,9 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/signIn").permitAll()
-                .antMatchers("/student/*", "/subject/*").hasAnyRole(UserRole.USER_ROLE.name(), UserRole.ADMIN_ROLE.name())
-                .antMatchers("/admin/getAllStudents").hasRole(UserRole.ADMIN_ROLE.name())
-                .and().formLogin();
+                .antMatchers("/*").hasAnyAuthority("student:read", "student:write")
+                .and()
+                .httpBasic();
         http
                 .logout().logoutUrl("/logout");
     }
