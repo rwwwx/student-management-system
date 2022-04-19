@@ -1,13 +1,12 @@
 package com.example.annotationtest.entity;
 
+import com.example.annotationtest.utils.EmailExistsForUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -15,14 +14,18 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity(name = "User")
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @NotNull
-    private String username;
+    @Email
+    @EmailExistsForUser
+    @Column(name = "user_email")
+    private String email;
+
     @NotNull
     private String password;
 
@@ -37,54 +40,16 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Role> roles;
 
-    //TODO constructor
-    public User(String username, String password, Set<Role> roles) {
-        this.username = username;
+    public User(String email,String password, Set<Role> roles) {
+        this.email = email;
         this.password = password;
         this.roles = roles;
     }
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
-        roles.add(new Role(UserRole.USER_ROLE));
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-
-    //TODO later
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+        roles.add(new Role(UserRole.USER));
     }
 
 }

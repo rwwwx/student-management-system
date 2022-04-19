@@ -26,7 +26,10 @@ public class SubjectNameExistsValidator implements ConstraintValidator<SubjectNa
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext constraintValidatorContext) {
-        log.info("Validating...");
+        return validation(name);
+    }
+
+    public boolean validation(String name) {
         return !subjectRepo.existsByName(name);
     }
 

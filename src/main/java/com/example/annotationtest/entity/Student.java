@@ -1,6 +1,6 @@
 package com.example.annotationtest.entity;
 
-import com.example.annotationtest.utils.EmailExists;
+import com.example.annotationtest.utils.EmailExistsForStudent;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public class Student {
     private String lastName;
 
     @Column(unique = true, nullable = false)
-    @EmailExists
+    @EmailExistsForStudent
     @NotNull
     @Email(message = "Email should be valid")
     private String email;
