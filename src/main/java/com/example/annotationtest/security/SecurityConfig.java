@@ -1,4 +1,4 @@
-package com.example.annotationtest.config;
+package com.example.annotationtest.security;
 
 import com.example.annotationtest.entity.UserRole;
 import com.example.annotationtest.service.UserDetailsServiceImpl;
@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -30,13 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password(bCryptPasswordEncoder.encode("1"))
-                .authorities(UserRole.ADMIN.getGrantedAuthorities())
+                .authorities(UserRole.ADMIN.getListOfGrantedAuthorities())
                 .roles(UserRole.ADMIN.name())
                 .and()
                 .withUser("user")
                 .password(bCryptPasswordEncoder.encode("1"))
                 .roles(UserRole.USER.name())
-                .authorities(UserRole.USER.getGrantedAuthorities());
+                .authorities(UserRole.USER.getListOfGrantedAuthorities());
         auth.userDetailsService(myUserDetailsService);
     }
 
@@ -48,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/signIn").permitAll()
                 .antMatchers("/*").hasAnyAuthority("student:read", "student:write")
                 .and()
-                .httpBasic();
+                .formLogin();
         http
                 .logout().logoutUrl("/logout");
     }

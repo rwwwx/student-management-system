@@ -2,6 +2,7 @@ package com.example.annotationtest.controller;
 
 import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.entity.User;
+import com.example.annotationtest.entity.UserRole;
 import com.example.annotationtest.service.StudentService;
 import com.example.annotationtest.service.UserService;
 import org.springframework.http.ResponseEntity;

@@ -3,6 +3,7 @@ package com.example.annotationtest.entity;
 import com.example.annotationtest.utils.EmailExistsForUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Persistent;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -37,19 +38,19 @@ public class User {
     @OneToMany
     private List<Subject> subjects;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    Set<Role> roles;
+    @Persistent
+    UserRole role;
 
-    public User(String email,String password, Set<Role> roles) {
+    public User(String email,String password, UserRole role) {
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
-        roles.add(new Role(UserRole.USER));
+        role = UserRole.USER;
     }
 
 }

@@ -20,17 +20,26 @@ public enum UserRole {
         this.permissions = permissions;
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    public Set<SimpleGrantedAuthority> getSetOfGrantedAuthorities() {
+        return getPermissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toSet());
     }
 
-    public List<SimpleGrantedAuthority> getGrantedAuthorities() {
-        //permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+    public List<SimpleGrantedAuthority> getListOfGrantedAuthorities() {
         return getPermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String toString() {
+        return "ROLE_" + this.name();
+    }
+
+    private Set<Permission> getPermissions() {
+        return permissions;
+    }
 
 }
 

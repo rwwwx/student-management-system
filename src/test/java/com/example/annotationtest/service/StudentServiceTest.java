@@ -58,7 +58,7 @@ class StudentServiceTest {
     @Test
     void shouldViewUsers() {
         when(studentRepo.findAll()).thenReturn(List.of(validStudent1));
-        assertThat(studentService.viewUsers()).isEqualTo(studentRepo.findAll());
+        assertThat(studentService.getAllStudents()).isEqualTo(studentRepo.findAll());
         verify(studentRepo, times(2)).findAll();
     }
 
@@ -75,6 +75,5 @@ class StudentServiceTest {
         when(studentRepo.existsById(1L)).thenReturn(true);
         verify(studentService, times(1)).deleteStudent(1L);
     }
-
 
 }
