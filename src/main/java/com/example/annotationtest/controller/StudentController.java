@@ -1,6 +1,7 @@
 package com.example.annotationtest.controller;
 
 import com.example.annotationtest.entity.Student;
+import com.example.annotationtest.security.UserSessionBean;
 import com.example.annotationtest.service.StudentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
+    private final UserSessionBean userSessionBean;
 
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, UserSessionBean userSessionBean) {
         this.studentService = studentService;
+        this.userSessionBean = userSessionBean;
     }
 
     @GetMapping("/all")

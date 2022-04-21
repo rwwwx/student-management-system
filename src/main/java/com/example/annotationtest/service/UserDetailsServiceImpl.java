@@ -2,6 +2,7 @@ package com.example.annotationtest.service;
 
 import com.example.annotationtest.entity.User;
 import com.example.annotationtest.entityRepository.UserRepo;
+import com.example.annotationtest.security.UserSessionBean;
 import com.example.annotationtest.security.UserDetailsImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +23,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepo userRepo;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserSessionBean userSessionBean;
 
     @Autowired
     public UserDetailsServiceImpl(UserRepo userRepo,
-                                  @Qualifier("myEncoder") BCryptPasswordEncoder bCryptPasswordEncoder) {
+                                  @Qualifier("myEncoder") BCryptPasswordEncoder bCryptPasswordEncoder,
+                                  UserSessionBean userSessionBean) {
         this.userRepo = userRepo;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userSessionBean = userSessionBean;
     }
 
     @Override
@@ -35,6 +39,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.info("loadUserByUsername");
         if (userRepo.existsByEmail(email)) {
             User user = userRepo.getUserByEmail(email);
+            userSessionBean.setId(user.getId());
+            userSessionBean.setUserRole(user.getRole());
             return new UserDetailsImpl(
                     user.getEmail(),
                     bCryptPasswordEncoder.encode(user.getPassword()),

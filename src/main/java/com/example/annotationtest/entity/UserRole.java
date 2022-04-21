@@ -2,7 +2,6 @@ package com.example.annotationtest.entity;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,8 +10,8 @@ import static com.example.annotationtest.entity.Permission.*;
 
 public enum UserRole {
 
-    USER(new HashSet<>(Set.of(STUDENT_READ, STUDENT_WRITE))),
-    ADMIN(new HashSet<>(Set.of(STUDENT_READ, STUDENT_WRITE, USER_WRITE, USER_READ)));
+    USER(Set.of(STUDENT_READ, STUDENT_WRITE)),
+    ADMIN(Set.of(STUDENT_READ, STUDENT_WRITE, USER_WRITE, USER_READ));
 
     private final Set<Permission> permissions;
 
