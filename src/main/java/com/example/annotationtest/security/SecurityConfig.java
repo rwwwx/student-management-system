@@ -1,7 +1,6 @@
 package com.example.annotationtest.security;
 
 import com.example.annotationtest.entity.UserRole;
-import com.example.annotationtest.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

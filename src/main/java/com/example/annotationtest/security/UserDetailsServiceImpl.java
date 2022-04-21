@@ -1,10 +1,7 @@
-package com.example.annotationtest.service;
+package com.example.annotationtest.security;
 
 import com.example.annotationtest.entity.User;
 import com.example.annotationtest.entityRepository.UserRepo;
-import com.example.annotationtest.security.UserSessionBean;
-import com.example.annotationtest.security.UserDetailsImpl;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,14 +33,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        log.info("loadUserByUsername");
         if (userRepo.existsByEmail(email)) {
             User user = userRepo.getUserByEmail(email);
             userSessionBean.setId(user.getId());
             userSessionBean.setUserRole(user.getRole());
             return new UserDetailsImpl(
                     user.getEmail(),
-                    bCryptPasswordEncoder.encode(user.getPassword()),
+                    user.getPassword(),
                     user.getRole());
         }
         throw new UsernameNotFoundException("user with this email " + email + " not found");

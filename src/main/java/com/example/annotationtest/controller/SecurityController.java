@@ -2,7 +2,6 @@ package com.example.annotationtest.controller;
 
 import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.entity.User;
-import com.example.annotationtest.entity.UserRole;
 import com.example.annotationtest.service.StudentService;
 import com.example.annotationtest.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-
 
 @RestController
 public class SecurityController {
@@ -29,17 +27,18 @@ public class SecurityController {
 
     @GetMapping("/")
     public ResponseEntity<String> home() {
+        userService.saveUser(new User("1@mail.com", "1"));
         return ResponseEntity.ok("<h1> Welcome to homepage ! </h1>");
     }
 
     @GetMapping("/admin/getAllStudents")
-    @PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @GetMapping("/admin/getAllUsers")
-    @PreAuthorize("hasAuthority('user:read')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }

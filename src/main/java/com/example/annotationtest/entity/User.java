@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -38,10 +37,11 @@ public class User {
     @OneToMany
     private List<Subject> subjects;
 
-    @Persistent
-    UserRole role;
+    @NotNull
+    @Column(name = "role")
+    private UserRole role = UserRole.USER;
 
-    public User(String email,String password, UserRole role) {
+    public User(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -50,7 +50,6 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
-        role = UserRole.USER;
     }
 
 }
