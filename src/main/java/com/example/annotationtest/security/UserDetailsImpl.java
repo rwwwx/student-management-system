@@ -41,7 +41,6 @@ public class UserDetailsImpl implements UserDetails {
         return userRole;
     }
 
-    //TODO later
     @Override
     public boolean isAccountNonExpired() {
         return true;
