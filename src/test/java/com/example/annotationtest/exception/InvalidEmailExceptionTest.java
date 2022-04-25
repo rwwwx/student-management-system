@@ -12,20 +12,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 class InvalidEmailExceptionTest {
 
     private InvalidEmailException exception;
+    private InvalidEmailException exception2;
+    private String email = "emial@email.com";
 
     @BeforeEach
     void setUp() {
         exception = new InvalidEmailException();
+        exception2 = new InvalidEmailException(email);
     }
 
     @Test
     void getMessage() {
-        assertThat(exception.getMessage()).isEqualTo("Invalid data for student");
+        assertThat(exception.getMessage()).isEqualTo("wrong email");
+        assertThat(exception2.getMessage()).isEqualTo("wrong email " + email);
     }
 
     @Test
     void testToString() {
-        assertThat(exception.toString()).isEqualTo("Invalid data for student");
+        assertThat(exception.toString()).isEqualTo("invalidEmailException");
+        assertThat(exception2.toString()).isEqualTo("invalidEmailException " + email);
     }
 
 }

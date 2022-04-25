@@ -9,12 +9,12 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({FIELD})
+@Target(FIELD)
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailExistsValidator.class)
-public @interface EmailExists {
+@Constraint(validatedBy = EmailExistsValidatorForStudent.class)
+public @interface EmailExistsForStudent {
 
-    String message() default "{invalidEmailException}";
+    String message() default "{invalidEmailForStudentException}";
     Class<?>[] groups() default { };
     Class<? extends Payload>[] payload() default { };
 

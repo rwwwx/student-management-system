@@ -20,7 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,10 +52,46 @@ class SubjectControllerTest {
 
     @Test
     void shouldSaveValidSubject() throws Exception {
-        mockMvc.perform(post("/saveNewSubject")
+        mockMvc.perform(post("/subject/")
                 .content(objectMapper.writeValueAsString(validSubject))
                 .contentType("application/json"))
                 .andExpect(status().isOk());
         verify(subjectService).saveNewSubject(validSubject);
     }
+
+    @Test
+    void shouldGetSubjectById() throws Exception {
+        mockMvc.perform(get("/subject/{id}", 1)
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+        verify(subjectService).getSubjectById(1);
+    }
+
+    @Test
+    void shouldGetAllSubjects() throws Exception {
+        mockMvc.perform(get("/subject/all")
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+        verify(subjectService).viewSubjects();
+    }
+
+    @Test
+    void shouldUpdateSubject() throws Exception {
+        mockMvc.perform(put("/subject/{id}", 1)
+                .content(objectMapper.writeValueAsBytes(validSubject))
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+        verify(subjectService).updateSubject(1, validSubject);
+    }
+
+    @Test
+    void shouldDeleteSubject() throws Exception {
+        mockMvc.perform(delete("/subject/{id}", 1)
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+        verify(subjectService).deleteSubject(1);
+    }
+
+
+
 }

@@ -32,7 +32,7 @@ public class StudentService {
         return studentRepo.getById(id);
     }
 
-    public List<Student> viewUsers() {
+    public List<Student> getAllStudents() {
         return studentRepo.findAll();
     }
 

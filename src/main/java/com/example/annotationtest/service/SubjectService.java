@@ -2,14 +2,12 @@ package com.example.annotationtest.service;
 
 import com.example.annotationtest.entity.Subject;
 import com.example.annotationtest.entityRepository.SubjectRepo;
-
 import com.example.annotationtest.exception.InvalidIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.beans.Transient;
 import java.util.List;
 
 @Service
