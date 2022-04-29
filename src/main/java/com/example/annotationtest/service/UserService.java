@@ -33,4 +33,12 @@ public class UserService {
         return userRepo.findAll();
     }
 
+    public User getUserById(long id) {
+        return userRepo.getById(id);
+    }
+
+    public User getUserByEmail(String name) {
+        return userRepo.getUserByEmail(name);
+    }
+
 }

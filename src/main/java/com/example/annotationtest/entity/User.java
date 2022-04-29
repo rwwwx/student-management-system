@@ -3,11 +3,11 @@ package com.example.annotationtest.entity;
 import com.example.annotationtest.utils.EmailExistsForUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Persistent;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -29,27 +29,43 @@ public class User {
     @NotNull
     private String password;
 
-    @JoinColumn(name = "student_id")
     @OneToMany
     private List<Student> students;
 
-    @JoinColumn(name = "subject_id")
     @OneToMany
     private List<Subject> subjects;
 
-    @NotNull
-    @Column(name = "role")
-    private UserRole role = UserRole.USER;
+    @Column(name = "roleName")
+    private String roleName;
+
+    @Column(name = "roleId")
+    private UserRole role;
 
     public User(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.roleName = role.name();
     }
 
-    public User(String email, String password) {
+    //TODO delete this later
+    public User(String email, String password, UserRole role, Student student) {
         this.email = email;
         this.password = password;
+        this.role = role;
+        this.roleName = role.name();
+        this.students = new ArrayList<>();
+        students.add(student);
+    }
+
+    //TODO delete this later
+    public User(String email, String password, Student student) {
+        this.email = email;
+        this.password = password;
+        this.role = UserRole.USER;
+        this.roleName = UserRole.USER.name();
+        this.students = new ArrayList<>();
+        students.add(student);
     }
 
 }

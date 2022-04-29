@@ -3,6 +3,8 @@ package com.example.annotationtest.controller;
 import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.security.UserSessionBean;
 import com.example.annotationtest.service.StudentService;
+import com.example.annotationtest.service.UserService;
+import com.example.annotationtest.utils.UtilityClass;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 @RestController
@@ -21,18 +22,23 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
+    private final UserService userService;
     private final UserSessionBean userSessionBean;
 
     @Autowired
-    public StudentController(StudentService studentService, UserSessionBean userSessionBean) {
+    public StudentController(StudentService studentService, UserService userService, UserSessionBean userSessionBean) {
         this.studentService = studentService;
+        this.userService = userService;
         this.userSessionBean = userSessionBean;
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('student:read')")
-    public ResponseEntity<List<Student>> viewAllUsers() {
-        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
+    public ResponseEntity<List<Student>> viewAllStudentsForCurrentUser() {
+        System.out.println(UtilityClass.getEmailOfCurrentUser());
+        return new ResponseEntity<>(
+                userService.getUserByEmail(UtilityClass.getEmailOfCurrentUser()).getStudents(),
+                HttpStatus.OK);
     }
 
     @PostMapping("/")
@@ -59,6 +65,5 @@ public class StudentController {
         studentService.deleteStudent(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
 
 }

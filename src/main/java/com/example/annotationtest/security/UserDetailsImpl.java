@@ -22,6 +22,10 @@ public class UserDetailsImpl implements UserDetails {
         System.out.println(this.grantedAuthorities);
     }
 
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities;
@@ -35,10 +39,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-
-    public UserRole getUserRole() {
-        return userRole;
     }
 
     //TODO later
