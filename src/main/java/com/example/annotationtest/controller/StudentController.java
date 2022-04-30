@@ -1,7 +1,9 @@
 package com.example.annotationtest.controller;
 
 import com.example.annotationtest.entity.Student;
-import com.example.annotationtest.security.UserSessionBean;
+import com.example.annotationtest.entity.StudentDTO;
+import com.example.annotationtest.exception.InvalidEmailException;
+import com.example.annotationtest.exception.InvalidIdException;
 import com.example.annotationtest.service.StudentService;
 import com.example.annotationtest.service.UserService;
 import com.example.annotationtest.utils.UtilityClass;
@@ -23,40 +25,38 @@ public class StudentController {
 
     private final StudentService studentService;
     private final UserService userService;
-    private final UserSessionBean userSessionBean;
 
     @Autowired
-    public StudentController(StudentService studentService, UserService userService, UserSessionBean userSessionBean) {
+    public StudentController(StudentService studentService, UserService userService) {
         this.studentService = studentService;
         this.userService = userService;
-        this.userSessionBean = userSessionBean;
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('student:read')")
     public ResponseEntity<List<Student>> viewAllStudentsForCurrentUser() {
-        System.out.println(UtilityClass.getEmailOfCurrentUser());
         return new ResponseEntity<>(
                 userService.getUserByEmail(UtilityClass.getEmailOfCurrentUser()).getStudents(),
                 HttpStatus.OK);
     }
 
+    //TODO Save Student with User ID
     @PostMapping("/")
-    @PreAuthorize("hasAuthority('student:write')")
-    public ResponseEntity<Student> saveNewStudent(@RequestBody @Valid Student student) throws RuntimeException {
-        return ResponseEntity.ok(studentService.saveNewStudent(student));
+    //@PreAuthorize("hasAuthority('student:write')")
+    public ResponseEntity<Student> saveNewStudent(@RequestBody @Valid StudentDTO studentDTO) throws InvalidEmailException {
+        return ResponseEntity.ok(studentService.saveNewStudent(studentDTO));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('student:read')")
-    public ResponseEntity<Student> getStudentById(@PathVariable long id) throws RuntimeException {
+    public ResponseEntity<Student> getStudentById(@PathVariable long id) throws InvalidIdException {
         return ResponseEntity.ok(studentService.getStudentById(id));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('student:write')")
-    public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody Student updatedStudent) {
-        return ResponseEntity.ok(studentService.updateStudent(id, updatedStudent));
+    public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody StudentDTO studentDTOForUpdate) {
+        return ResponseEntity.ok(studentService.updateStudent(id, studentDTOForUpdate));
     }
 
     @DeleteMapping("/{id}")

@@ -28,9 +28,6 @@ public class Student {
     private String lastName;
 
     @Column(unique = true, nullable = false)
-    @EmailExistsForStudent
-    @NotNull
-    @Email(message = "Email should be valid")
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
@@ -51,6 +48,7 @@ public class Student {
         this.subjectSet = subjectSet;
     }
 
+    //TODO delete later
     public Student(long id, Student student) {
         this.id = id;
         this.age = student.getAge();
