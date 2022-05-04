@@ -43,6 +43,10 @@ public class UserDetailsImpl implements UserDetails {
         return username;
     }
 
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
