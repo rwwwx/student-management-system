@@ -1,12 +1,14 @@
 package com.example.annotationtest.security;
 
 import com.example.annotationtest.entity.UserRole;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
 
+@Slf4j
 public class UserDetailsImpl implements UserDetails {
 
     private final String username;
@@ -19,7 +21,11 @@ public class UserDetailsImpl implements UserDetails {
         this.password = password;
         this.userRole = userRole;
         this.grantedAuthorities = userRole.getSetOfGrantedAuthorities();
-        System.out.println(this.grantedAuthorities);
+        log.info(String.valueOf(this.grantedAuthorities));
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
     }
 
     @Override

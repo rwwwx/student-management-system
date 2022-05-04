@@ -4,8 +4,10 @@ import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.entity.User;
 import com.example.annotationtest.service.StudentService;
 import com.example.annotationtest.service.UserService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +29,11 @@ public class SecurityController {
 
     @GetMapping("/")
     public ResponseEntity<String> home() {
-        userService.saveUser(new User("1@mail.com", "1"));
         return ResponseEntity.ok("<h1> Welcome to homepage ! </h1>");
     }
 
     @GetMapping("/admin/getAllStudents")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('user:read')")
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.getAllStudents());
     }

@@ -1,17 +1,18 @@
 package com.example.annotationtest.entity;
 
-import com.example.annotationtest.utils.EmailExistsForStudent;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity(name = "Student")
 @Table(name = "students")
@@ -27,36 +28,32 @@ public class Student {
     private String firstName;
     private String lastName;
 
-    @Column(unique = true, nullable = false)
-    @EmailExistsForStudent
     @NotNull
-    @Email(message = "Email should be valid")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User owner;
+
+    @Column(unique = true, nullable = false)
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Set<Subject> subjectSet;
 
-    public Student(int age, String firstName, String lastName, String email) {
+    public Student(int age, String firstName, String lastName, String email, User owner) {
         this.age = age;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.owner = owner;
     }
 
-    public Student(int age, String firstName, String lastName, String email, Set<Subject> subjectSet) {
+    public Student(int age, String firstName, String lastName, String email, User owner, Set<Subject> subjectSet) {
         this.age = age;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.owner = owner;
         this.subjectSet = subjectSet;
-    }
-
-    public Student(long id, Student student) {
-        this.id = id;
-        this.age = student.getAge();
-        this.firstName = student.getFirstName();
-        this.email = student.getEmail();
-        this.lastName = student.getLastName();
     }
 
 }
