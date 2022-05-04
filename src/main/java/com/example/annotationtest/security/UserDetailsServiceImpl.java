@@ -2,7 +2,9 @@ package com.example.annotationtest.security;
 
 import com.example.annotationtest.entity.User;
 import com.example.annotationtest.entityRepository.UserRepo;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,7 +37,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return new UserDetailsImpl(
                     user.getEmail(),
                     user.getPassword(),
-                    user.getRole());
+                    user.getRole()
+            );
         }
         throw new UsernameNotFoundException("user with this email " + email + " not found");
     }
