@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -40,9 +41,8 @@ public class StudentController {
                 HttpStatus.OK);
     }
 
-    //TODO Save Student with User ID
     @PostMapping("/")
-    //@PreAuthorize("hasAuthority('student:write')")
+    @PreAuthorize("hasAuthority('student:write')")
     public ResponseEntity<Student> saveNewStudent(@RequestBody @Valid StudentDTO studentDTO) throws InvalidEmailException {
         return ResponseEntity.ok(studentService.saveNewStudent(studentDTO));
     }

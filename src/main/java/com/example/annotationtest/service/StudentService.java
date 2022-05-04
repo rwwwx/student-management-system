@@ -4,9 +4,12 @@ import com.example.annotationtest.entity.Student;
 import com.example.annotationtest.entity.StudentDTO;
 import com.example.annotationtest.entityRepository.StudentRepo;
 import com.example.annotationtest.entityRepository.UserRepo;
+import com.example.annotationtest.exception.InvalidAccessException;
 import com.example.annotationtest.exception.InvalidIdException;
 import com.example.annotationtest.utils.UtilityClass;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
@@ -25,8 +28,9 @@ public class StudentService {
         this.userRepo = userRepo;
     }
 
-    //TODO refactor
     public Student saveNewStudent(StudentDTO studentDTO) {
+        if (studentDTO.getOwner() == null)
+            studentDTO.setOwner(userRepo.getUserByEmail(UtilityClass.getEmailOfCurrentUser()));
         Student student = UtilityClass.convertToEntity(studentDTO);
         return studentRepo.save(student);
     }
@@ -38,6 +42,8 @@ public class StudentService {
                 return student;
             if (isStudentOwnerEqualToCurrentUser(student))
                 return student;
+            else
+                throw new InvalidAccessException();
         }
         throw new InvalidIdException();
     }
@@ -46,7 +52,6 @@ public class StudentService {
         return studentRepo.findAll();
     }
 
-    //TODO test this method
     @Transactional
     public Student updateStudent(long id, StudentDTO studentDTO) throws InvalidIdException {
         if (isStudentExists(id)) {
@@ -56,6 +61,8 @@ public class StudentService {
                 return studentRepo.save(studentForUpdate);
             if (isStudentOwnerEqualToCurrentUser(studentForUpdate))
                 return studentRepo.save(studentForUpdate);
+            else
+                throw new InvalidAccessException();
         }
         throw new InvalidIdException();
     }
@@ -67,6 +74,8 @@ public class StudentService {
                 studentRepo.deleteById(id);
             if (isStudentOwnerEqualToCurrentUser(studentRepo.getById(id)))
                 studentRepo.deleteById(id);
+            else
+                throw new InvalidAccessException();
         }
         throw new InvalidIdException();
     }
